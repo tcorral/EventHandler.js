@@ -473,6 +473,115 @@
      */
     EventHandler = function (){};
     /**
+     * Checks if the element can scroll to detect if the content is loaded.
+     * @param oElement
+     * @param fpCallback
+     */
+    EventHandler.hasVerticalScroll = function(oElement, fpCallback)
+    {
+        if(!oElement)
+        {
+            return;
+        }
+        oElement.scrollTop = 1;
+        if(oElement.scrollTop === 1)
+        {
+            oElement.scrollTop = 0;
+            fpCallback.call(oElement);
+        }
+    };
+    /**
+     * DOMLoad checks for the correct way to detect the loading of the DOM
+     * Use LazyPatter.
+     * Inspired by Dojo DOMLoad way.
+     * You can pass any functions you need to be executed (to the result function of the automatic executed) when the DOM is load
+     * @param Function / s
+     */
+    EventHandler.DOMLoad = (function ()
+    {
+        var bDOMLoaded = false;
+        var nDOMLoadTimer = null;
+        var aFunctionsToCall = [];
+        var oAddedStrings = {};
+        var fpErrorHandling = null;
+        var execFunctions = function ()
+        {
+            var nFunction = 0;
+            var nLenFunctions = aFunctionsToCall.length;
+
+            for (; nFunction < nLenFunctions; nFunction++)
+            {
+                try
+                {
+                    aFunctionsToCall[nFunction]();
+                }
+                catch (erError)
+                {
+                    if (fpErrorHandling && typeof fpErrorHandling === "function")
+                    {
+                        fpErrorHandling(erError);
+                    }
+                }
+            }
+            aFunctionsToCall = [];
+        };
+        var domHasLoaded = function ()
+        {
+            if (bDOMLoaded)
+            {
+                return;
+            }
+            bDOMLoaded = true;
+            execFunctions();
+        };
+        /* Mozilla, Chrome, Opera */
+        if (document.addEventListener)
+        {
+            document.addEventListener("DOMContentLoaded", domHasLoaded, false);
+        }
+        /* Safari, iCab, Konqueror */
+        if (/KHTML|WebKit|iCab/i.test(navigator.userAgent))
+        {
+            nDOMLoadTimer = setInterval(function ()
+            {
+                if (/loaded|complete/i.test(document.readyState))
+                {
+                    domHasLoaded();
+                    clearInterval(nDOMLoadTimer);
+                }
+            }, 10);
+        }
+        /* Other web browsers */
+        window.onload = domHasLoaded;
+
+        return {
+            DOMReady : function ()
+            {
+                var nArgument = 0;
+                var nLenArguments = arguments.length;
+                var fpRef = null;
+
+                for (; nArgument < nLenArguments; nArgument++)
+                {
+                    fpRef = arguments[nArgument];
+                    if (!fpRef.DOMReady && !oAddedStrings[fpRef])
+                    {
+                        fpRef.DOMReady = true;
+                        aFunctionsToCall.push(fpRef);
+                    }
+                }
+                if (bDOMLoaded)
+                {
+                    execFunctions();
+                }
+            },
+            setErrorHandling : function (funcRef)
+            {
+                fpErrorHandling = funcRef;
+            }
+        };
+    }());
+    /**
      * Returns the callback to be used in callbacks.
      * @static
      * @param aAux
@@ -781,6 +890,7 @@
      */
     ns.EH = {
         buttonTypes: Eve.buttonMouseDown,
+        ready: DOMLoad,
         bind: EventHandler.addEvent,
         unbind: EventHandler.removeEvent,
         trigger: EventHandler.trigger
