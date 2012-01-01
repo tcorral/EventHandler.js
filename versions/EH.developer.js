@@ -14,43 +14,43 @@
          * @private
          * @type Object
          */
-        oEvents = {},
+            oEvents = {},
         /**
          * Cache false boolean value. Helps to reduce final size.
          * @private
          * @type Boolean
          */
-        FALSE = false,
+            FALSE = false,
         /**
          * Cache true boolean value. Helps to reduce final size.
          * @private
          * @type Boolean
          */
-        TRUE = true,
+            TRUE = true,
         /**
          * Cache 0 value. Increase readability.
          * @private
          * @type Number
          */
-        NUMBER_ZERO = 0,
+            NUMBER_ZERO = 0,
         /**
          * Cache 0 value. Increase readability reduce size.
          * @private
          * @type Number
          */
-        NUMBER_NEG = -1,
+            NUMBER_NEG = -1,
         /**
          * Cache '' value. Increase readability reduce size.
          * @private
          * @type String
          */
-        EMPTY = '',
+            EMPTY = '',
         /**
          * Cache null value. Reduce size.
          * @private
          * @type Object
          */
-        NULL = null,
+            NULL = null,
         /**
          * Check property exist in DOM.
          * To do it correctly we need to create a new layer.
@@ -58,7 +58,7 @@
          * @param sProp is the key of the property to check in dom element
          * @return Boolean
          */
-        checkPropInDom = function(sProp)
+            checkPropInDom = function(sProp)
         {
             var oLayer = doc.createElement("div");
             try
@@ -75,7 +75,7 @@
          * @param oObject the object to be checked
          * @return Boolean
          */
-        isArray = function ( oObject )
+            isArray = function ( oObject )
         {
             return {}.toString.call( oObject ) === '[object Array]';
         },
@@ -85,7 +85,7 @@
          * @param aArray the array to remove repeated elements.
          * @return Array
          */
-        unique = function (aArray)
+            unique = function (aArray)
         {
             var aAux        =   [],
                 nOuter      =   0,
@@ -111,7 +111,7 @@
          * @param oElement is the DOM element to check if exist.
          * @return Boolean
          */
-        hasEvents = function ( oElement )
+            hasEvents = function ( oElement )
         {
             return oEvents[ oElement ] !== und;
         },
@@ -122,7 +122,7 @@
          * @param sType is the type of event to be checked
          * @return Boolean
          */
-        hasEvent = function ( oElement, sType )
+            hasEvent = function ( oElement, sType )
         {
             return hasEvents( oElement ) && oEvents[ oElement ][ sType ] !== und;
         },
@@ -132,7 +132,7 @@
          * @param sType is the type of event to be checked
          * @return Boolean
          */
-        isSystemEvent = function ( sType )
+            isSystemEvent = function ( sType )
         {
             return oSystemEvents[ sType ] !== und;
         },
@@ -141,7 +141,7 @@
          * @private
          * @type Object
          */
-        oSystemEvents = ( function() {
+            oSystemEvents = ( function() {
             var oObject = {},
                 aEvents = 'afterprint,beforeprint,beforeonload,blur,error,focus,hashchange,load,message,offline,online,pagehide,pageshow,popstate,redo,resize,storage,undo,unload,change,contextmenu,focusin,focusout,formchange,forminput,input,invalid,select,submit,reset,keydown,keypress,keyup,click,dblclick,drag,dragend,dragenter,dragleave,dragover,dragstart,drop,mousedown,mousemove,mouseout,mouseover,mouseup,mousewheel,scroll,mouseenter,mouseleave,abort,canplay,canplaythrough,durationchange,emptied,ended,loadeddata,loadedmetadata,loadstart,pause,play,playing,progress,ratechange,readystatechange,seeked,seeking,stalled,suspend,timeupdate,volumechange,waiting,cssAnimationKeyframe,webkitTransitionEnd'.split( "," ),
                 nEvent = 0,
@@ -165,7 +165,7 @@
          * @private
          * @return Boolean
          */
-        isCancelBubble = function ()
+            isCancelBubble = function ()
         {
             var oEvent = win.event;
             return Boolean(oEvent && oEvent.cancelBubble !== und);
@@ -175,7 +175,7 @@
          * @private
          * @return Boolean
          */
-        isReturnValue = function ()
+            isReturnValue = function ()
         {
             var oEvent = win.event;
             return Boolean(oEvent && oEvent.returnValue !== und);
@@ -185,7 +185,7 @@
          * @private
          * @type Array
          */
-        BUTTON_MOUSE_DOWN = [
+            BUTTON_MOUSE_DOWN = [
             function ()
             {
                 this.left= NUMBER_ZERO;
@@ -204,7 +204,7 @@
          * Use Lazy Pattern to be defined
          * @private
          */
-        preventDefault = (function()
+            preventDefault = (function()
         {
             if( isReturnValue() )
             {
@@ -225,7 +225,7 @@
          * Use Lazy Pattern to be defined
          * @private
          */
-        stopPropagation = ( function ()
+            stopPropagation = ( function ()
         {
             if( isCancelBubble() )
             {
@@ -247,7 +247,7 @@
          * @private
          * @type Object
          */
-        EVENT_PROPERTIES = {
+            EVENT_PROPERTIES = {
             /**
              * altKey stores the reference to altKey property
              * @type Boolean
