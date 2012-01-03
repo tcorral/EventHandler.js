@@ -206,7 +206,7 @@
          */
         preventDefault = (function()
         {
-            if( isReturnValue() )
+            if( !isReturnValue() )
             {
                 return function( eEvent )
                 {
@@ -227,7 +227,7 @@
          */
         stopPropagation = ( function ()
         {
-            if( isCancelBubble() )
+            if( !isCancelBubble() )
             {
                 return function ( eEvent )
                 {
