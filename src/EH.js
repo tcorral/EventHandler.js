@@ -890,7 +890,7 @@
      */
     ns.EH = {
         buttonTypes: Eve.buttonMouseDown,
-        ready: EventHandler.DOMLoad,
+        ready: EventHandler.DOMLoad.DOMReady,
         bind: EventHandler.addEvent,
         unbind: EventHandler.removeEvent,
         trigger: EventHandler.trigger
